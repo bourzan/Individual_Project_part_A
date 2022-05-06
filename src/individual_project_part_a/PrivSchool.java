@@ -487,7 +487,6 @@ public class PrivSchool {
     }
     
     public void StudentsWithCourses() {
-        
         HashSet<Student> tempstud = new HashSet();
         for (int i=0; i < runningCourses.size() - 1; i++) {
             for (int y=0; y < runningCourses.get(i).getStudents().size(); y++) {
@@ -506,7 +505,6 @@ public class PrivSchool {
             System.out.println("Students with more than one course:");
             System.out.println(tempstud + "\n");
         }
-        
     }
     
     public void ViewInfo() {
