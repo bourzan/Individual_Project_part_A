@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 
@@ -485,6 +486,28 @@ public class PrivSchool {
         }
     }
     
+    public void StudentsWithCourses() {
+        
+        HashSet<Student> tempstud = new HashSet();
+        for (int i=0; i < runningCourses.size() - 1; i++) {
+            for (int y=0; y < runningCourses.get(i).getStudents().size(); y++) {
+                for (int x=i+1; x < runningCourses.size(); x++) {
+                    for (int z=0; z < runningCourses.get(x).getStudents().size(); z++) {
+                        if (runningCourses.get(i).getStudents().get(y) == runningCourses.get(x).getStudents().get(z)) {
+                            tempstud.add(runningCourses.get(i).getStudents().get(y));
+                        }
+                    }
+                }
+            }
+        }
+        if (tempstud.isEmpty()) {
+            System.out.println("No student with more than one course\n");
+        } else {
+            System.out.println("Students with more than one course:");
+            System.out.println(tempstud + "\n");
+        }
+        
+    }
     
     public void ViewInfo() {
         String readLine;
@@ -517,7 +540,7 @@ public class PrivSchool {
                         AssignmentsPerStudent();
                     }
                     case "5" -> {
-                        //ActiveCourses();
+                        StudentsWithCourses();
                     }
                 }
             } else {
