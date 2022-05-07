@@ -14,21 +14,28 @@ import java.util.Scanner;
  */
 public class PrivSchool {
 
-    protected ArrayList<Student> pSStudents = new ArrayList();
-    protected ArrayList<Trainer> pSTrainers = new ArrayList();
-    protected ArrayList<Course> pSCourses = new ArrayList();
-    protected ArrayList<Assignment> pSAssignments = new ArrayList();
-    protected ArrayList<ActiveCourse> runningCourses = new ArrayList();
+    protected ArrayList<Student> pSStudents;
+    protected ArrayList<Trainer> pSTrainers;
+    protected ArrayList<Course> pSCourses;
+    protected ArrayList<Assignment> pSAssignments;
+    protected ArrayList<ActiveCourse> runningCourses;
     
     protected Scanner sc;
-    protected final DateTimeFormatter dformat = DateTimeFormatter.ofPattern("d/M/uuuu");
+    protected final DateTimeFormatter dformat;
 
     
     public PrivSchool() {
+        pSStudents = new ArrayList();
+        pSTrainers = new ArrayList();
+        pSCourses = new ArrayList();
+        pSAssignments = new ArrayList();
+        runningCourses = new ArrayList();
+        
         sc = new Scanner(System.in);
+        dformat = DateTimeFormatter.ofPattern("d/M/uuuu");
     }
     
-    public void AddAssignments() {
+    public void addAssignments() {
         String readLine;
         
         System.out.println("Assignment List:");
@@ -40,7 +47,7 @@ public class PrivSchool {
         do {
             readLine = sc.nextLine().trim().replaceAll("  +", " ");
             if (!readLine.equals("")) {
-                tmpAss = String2Assignment(readLine);
+                tmpAss = string2Assignment(readLine);
                 if (tmpAss == null) {
                     System.out.println("Please use the exact format for each entry");
                 } else {
@@ -51,33 +58,34 @@ public class PrivSchool {
             }
         } while (true);
         if (pSAssignments.isEmpty()) {
-            pSAssignments.add(String2Assignment("java1 Basics"));
-            pSAssignments.add(String2Assignment("java2 Fundamentals"));
-            pSAssignments.add(String2Assignment("java3 Advanced"));
-            pSAssignments.add(String2Assignment("java4 Project1"));
-            pSAssignments.add(String2Assignment("java5 Project2"));
-            pSAssignments.add(String2Assignment("c#1 Basics"));
-            pSAssignments.add(String2Assignment("c#2 Fundamentals"));
-            pSAssignments.add(String2Assignment("c#3 Advanced"));
-            pSAssignments.add(String2Assignment("c#4 Project1"));
-            pSAssignments.add(String2Assignment("c#5 Project2"));
-            pSAssignments.add(String2Assignment("python1 Basics"));
-            pSAssignments.add(String2Assignment("python2 Fundamentals"));
-            pSAssignments.add(String2Assignment("python3 Advanced"));
-            pSAssignments.add(String2Assignment("python4 Project1"));
-            pSAssignments.add(String2Assignment("python5 Project2"));
+            pSAssignments.add(string2Assignment("java1 Basics"));
+            pSAssignments.add(string2Assignment("java2 Fundamentals"));
+            pSAssignments.add(string2Assignment("java3 Advanced"));
+            pSAssignments.add(string2Assignment("java4 Project1"));
+            pSAssignments.add(string2Assignment("java5 Project2"));
+            pSAssignments.add(string2Assignment("c#1 Basics"));
+            pSAssignments.add(string2Assignment("c#2 Fundamentals"));
+            pSAssignments.add(string2Assignment("c#3 Advanced"));
+            pSAssignments.add(string2Assignment("c#4 Project1"));
+            pSAssignments.add(string2Assignment("c#5 Project2"));
+            pSAssignments.add(string2Assignment("python1 Basics"));
+            pSAssignments.add(string2Assignment("python2 Fundamentals"));
+            pSAssignments.add(string2Assignment("python3 Advanced"));
+            pSAssignments.add(string2Assignment("python4 Project1"));
+            pSAssignments.add(string2Assignment("python5 Project2"));
         }
     }
     
-    private Assignment String2Assignment(String tmp) {
+    private Assignment string2Assignment(String tmp) {
         String[] tmpArray = tmp.split(" ");
         if (tmpArray.length < 2)
             return null;
         for (int i=0; i < tmpArray.length; i++) {
             tmpArray[i] = tmpArray[i].substring(0, 1).toUpperCase() + tmpArray[i].substring(1).toLowerCase();
         }
-        if (!tmpArray[0].matches("[a-zA-Z0-9\\#]*")) {
-            System.out.println("Alphanumerical title only");
+        //if (!tmpArray[0].matches("[a-zA-Z0-9\\#]*")) {
+        if (!tmpArray[0].matches("(Java\\d|C#\\d|Python\\d)")) {
+            System.out.println("JavaX/C#X/PythonX title only (X is number)");
             return null;
         }
         if (tmpArray[1].isBlank()) {
@@ -88,7 +96,7 @@ public class PrivSchool {
     }
     
     
-    public void AddCourses() {
+    public void addCourses() {
         String readLine;
         
         System.out.println("Course List:");
@@ -100,7 +108,7 @@ public class PrivSchool {
         do {
             readLine = sc.nextLine().trim().replaceAll("  +", " ");
             if (!readLine.equals("")) {
-                tmpCour = String2Course(readLine);
+                tmpCour = string2Course(readLine);
                 if (tmpCour == null) {
                     System.out.println("Please use the exact format for each entry");
                 } else {
@@ -111,22 +119,22 @@ public class PrivSchool {
             }
         } while (true);
         if (pSCourses.isEmpty()) {
-            pSCourses.add(String2Course("CB6 Java Full-time 01/01/2020 30/03/2020"));
-            pSCourses.add(String2Course("CB6 Java Part-time 01/01/2020 30/06/2020"));
-            pSCourses.add(String2Course("CB6 C# Full-time 01/01/2020 30/03/2020"));
-            pSCourses.add(String2Course("CB6 C# Part-time 01/01/2020 30/06/2020"));
-            pSCourses.add(String2Course("CB6 Python Full-time 01/01/2020 30/03/2020"));
-            pSCourses.add(String2Course("CB6 Python Part-time 01/01/2020 30/06/2020"));
-            pSCourses.add(String2Course("CB7 Java Full-time 01/07/2020 30/10/2020"));
-            pSCourses.add(String2Course("CB7 Java Part-time 01/07/2020 30/12/2020"));
-            pSCourses.add(String2Course("CB7 C# Full-time 01/07/2020 30/10/2020"));
-            pSCourses.add(String2Course("CB7 C# Part-time 01/07/2020 30/12/2020"));
-            pSCourses.add(String2Course("CB7 Python Full-time 01/07/2020 30/10/2020"));
-            pSCourses.add(String2Course("CB7 Python Part-time 01/07/2020 30/12/2020"));
+            pSCourses.add(string2Course("CB6 Java Full-time 01/01/2020 30/03/2020"));
+            pSCourses.add(string2Course("CB6 Java Part-time 01/01/2020 30/06/2020"));
+            pSCourses.add(string2Course("CB6 C# Full-time 01/01/2020 30/03/2020"));
+            pSCourses.add(string2Course("CB6 C# Part-time 01/01/2020 30/06/2020"));
+            pSCourses.add(string2Course("CB6 Python Full-time 01/01/2020 30/03/2020"));
+            pSCourses.add(string2Course("CB6 Python Part-time 01/01/2020 30/06/2020"));
+            pSCourses.add(string2Course("CB7 Java Full-time 01/07/2020 30/10/2020"));
+            pSCourses.add(string2Course("CB7 Java Part-time 01/07/2020 30/12/2020"));
+            pSCourses.add(string2Course("CB7 C# Full-time 01/07/2020 30/10/2020"));
+            pSCourses.add(string2Course("CB7 C# Part-time 01/07/2020 30/12/2020"));
+            pSCourses.add(string2Course("CB7 Python Full-time 01/07/2020 30/10/2020"));
+            pSCourses.add(string2Course("CB7 Python Part-time 01/07/2020 30/12/2020"));
         }
     }
 
-    private Course String2Course(String tmp) {
+    private Course string2Course(String tmp) {
         String[] tmpArray = tmp.split(" ");
         if (tmpArray.length < 5)
             return null;
@@ -160,7 +168,7 @@ public class PrivSchool {
         return new Course(tmpArray[0],tmpArray[1],tmpArray[2],LocalDate.parse(tmpArray[3],dformat),LocalDate.parse(tmpArray[4],dformat));
     }
     
-    public void AddTrainers() {
+    public void addTrainers() {
         String readLine;
         
         System.out.println("Trainer List:");
@@ -172,7 +180,7 @@ public class PrivSchool {
         do {
             readLine = sc.nextLine().trim().replaceAll("  +", " ");
             if (!readLine.equals("")) {
-                tmpTra = String2Trainer(readLine);
+                tmpTra = string2Trainer(readLine);
                 if (tmpTra == null) {
                     System.out.println("Please use the exact format for each entry");
                 } else {
@@ -183,18 +191,18 @@ public class PrivSchool {
             }
         } while (true);
         if (pSTrainers.isEmpty()) {
-            pSTrainers.add(String2Trainer("Xaris Voultepsis Java"));
-            pSTrainers.add(String2Trainer("Dimitra Rotonda Java"));
-            pSTrainers.add(String2Trainer("Xarilaos Trikoupis C#"));
-            pSTrainers.add(String2Trainer("Dimitris Glibaris Java"));
-            pSTrainers.add(String2Trainer("Alexandros Filopoulos C#"));
-            pSTrainers.add(String2Trainer("Roula Pispirikou C#"));
-            pSTrainers.add(String2Trainer("Zaxarias Podemos Java"));
-            pSTrainers.add(String2Trainer("Manolis Douris C#"));
+            pSTrainers.add(string2Trainer("Xaris Voultepsis Java"));
+            pSTrainers.add(string2Trainer("Dimitra Rotonda Java"));
+            pSTrainers.add(string2Trainer("Xarilaos Trikoupis C#"));
+            pSTrainers.add(string2Trainer("Dimitris Glibaris Java"));
+            pSTrainers.add(string2Trainer("Alexandros Filopoulos C#"));
+            pSTrainers.add(string2Trainer("Roula Pispirikou C#"));
+            pSTrainers.add(string2Trainer("Zaxarias Podemos Java"));
+            pSTrainers.add(string2Trainer("Manolis Douris C#"));
         }
     }
     
-    private Trainer String2Trainer(String tmp) {
+    private Trainer string2Trainer(String tmp) {
         String[] tmpArray = tmp.split(" ");
         if (tmpArray.length < 3)
             return null;
@@ -217,7 +225,7 @@ public class PrivSchool {
     }
     
     
-    public void AddStudents() {
+    public void addStudents() {
         String readLine;
         
         System.out.println("Student List:");
@@ -229,7 +237,7 @@ public class PrivSchool {
         do {
             readLine = sc.nextLine().trim().replaceAll("  +", " ");
             if (!readLine.equals("")) {
-                tmpStud = String2Student(readLine);
+                tmpStud = string2Student(readLine);
                 if (tmpStud == null) {
                     System.out.println("Please use the exact format for each entry");
                 } else {
@@ -240,30 +248,30 @@ public class PrivSchool {
             }
         } while (true);
         if (pSStudents.isEmpty()) {
-            pSStudents.add(String2Student("Giannis Matzarakis 12/3/1997 500"));
-            pSStudents.add(String2Student("Mihalis Gogos 7/8/1986 700"));
-            pSStudents.add(String2Student("Ieroklis Kontovithoulkas 23/1/2001 2100"));
-            pSStudents.add(String2Student("Andreas Filkakis 30/6/1996 800"));
-            pSStudents.add(String2Student("Fillipos Gonipetis 18/4/2007 900"));
-            pSStudents.add(String2Student("Manolis Mixalos 11/3/1999 700"));
-            pSStudents.add(String2Student("Nikos Batarakis 25/11/1998 600"));
-            pSStudents.add(String2Student("Lampros Lampiris 14/4/1977 300"));
-            pSStudents.add(String2Student("Kostas Maxlapakis 9/12/2002 1700"));
-            pSStudents.add(String2Student("Giorgos Vavas 1/2/2000 100"));
-            pSStudents.add(String2Student("Vaggelis Vixas 29/2/1995 700"));
-            pSStudents.add(String2Student("Maria Pentagiotisa 17/8/2006 800"));
-            pSStudents.add(String2Student("Pantelis Mokos 23/4/1992 600"));
-            pSStudents.add(String2Student("Vrasidas Gopas 1/1/1990 1000"));
-            pSStudents.add(String2Student("Xristina Goulia 19/12/1980 400"));
-            pSStudents.add(String2Student("Fillipos Roxamis 20/11/2005 1200"));
-            pSStudents.add(String2Student("Despoina Robota 3/3/1940 1800"));
-            pSStudents.add(String2Student("Spiros Vithoulas 19/5/1996 300"));
-            pSStudents.add(String2Student("Eleni Glitsa 29/8/1981 200"));
-            pSStudents.add(String2Student("Giolanda Makri 18/7/2003 600"));
+            pSStudents.add(string2Student("Giannis Matzarakis 12/3/1997 500"));
+            pSStudents.add(string2Student("Mihalis Gogos 7/8/1986 700"));
+            pSStudents.add(string2Student("Ieroklis Kontovithoulkas 23/1/2001 2100"));
+            pSStudents.add(string2Student("Andreas Filkakis 30/6/1996 800"));
+            pSStudents.add(string2Student("Fillipos Gonipetis 18/4/2007 900"));
+            pSStudents.add(string2Student("Manolis Mixalos 11/3/1999 700"));
+            pSStudents.add(string2Student("Nikos Batarakis 25/11/1998 600"));
+            pSStudents.add(string2Student("Lampros Lampiris 14/4/1977 300"));
+            pSStudents.add(string2Student("Kostas Maxlapakis 9/12/2002 1700"));
+            pSStudents.add(string2Student("Giorgos Vavas 1/2/2000 100"));
+            pSStudents.add(string2Student("Vaggelis Vixas 29/2/1995 700"));
+            pSStudents.add(string2Student("Maria Pentagiotisa 17/8/2006 800"));
+            pSStudents.add(string2Student("Pantelis Mokos 23/4/1992 600"));
+            pSStudents.add(string2Student("Vrasidas Gopas 1/1/1990 1000"));
+            pSStudents.add(string2Student("Xristina Goulia 19/12/1980 400"));
+            pSStudents.add(string2Student("Fillipos Roxamis 20/11/2005 1200"));
+            pSStudents.add(string2Student("Despoina Robota 3/3/1940 1800"));
+            pSStudents.add(string2Student("Spiros Vithoulas 19/5/1996 300"));
+            pSStudents.add(string2Student("Eleni Glitsa 29/8/1981 200"));
+            pSStudents.add(string2Student("Giolanda Makri 18/7/2003 600"));
         }
     }
     
-    private Student String2Student(String tmp) {
+    private Student string2Student(String tmp) {
         String[] tmpArray = tmp.split(" ");
         if (tmpArray.length < 4)
             return null;
@@ -291,7 +299,7 @@ public class PrivSchool {
         return new Student(tmpArray[0],tmpArray[1],LocalDate.parse(tmpArray[2],dformat),Integer.parseInt(tmpArray[3]));
     }
 
-    public void ActivateCourse() {
+    public void activateCourse() {
         String readLine;
         int c;
 
@@ -355,12 +363,18 @@ public class PrivSchool {
         days = days/5;
         for (Assignment a : tempass) {
             subdate = subdate.plusDays(days);
+            if (subdate.getDayOfWeek().getValue() == 6) {
+                subdate = subdate.minusDays(1);
+            }
+            if (subdate.getDayOfWeek().getValue() == 7) {
+                subdate = subdate.minusDays(2);
+            }
             a.setSubDateTime(subdate);
         }
         runningCourses.add(new ActiveCourse(pSCourses.get(c), temptra, tempstu, tempass));
     }
     
-    public void ActiveCourses() {
+    public void activeCourses() {
         String readLine;
         
         if (pSCourses.isEmpty()) {
@@ -385,14 +399,14 @@ public class PrivSchool {
             System.out.println("\nEnter 'a' to add running courses or anything else to go back");
             readLine = sc.nextLine().trim();
             if (readLine.toLowerCase().equals("a")) {
-                ActivateCourse();
+                activateCourse();
             } else {
                 break;
             }
         } while (true);
     }
     
-    public void StudentsPerCourse() {
+    public void studentsPerCourse() {
         String readLine;
         
         for (int i=0; i < runningCourses.size(); i++) {
@@ -412,7 +426,7 @@ public class PrivSchool {
         }
     }
     
-    public void TrainersPerCourse() {
+    public void trainersPerCourse() {
         String readLine;
         
         for (int i=0; i < runningCourses.size(); i++) {
@@ -432,7 +446,7 @@ public class PrivSchool {
         }
     }
     
-    public void AssignmentsPerCourse() {
+    public void assignmentsPerCourse() {
         String readLine;
         
         for (int i=0; i < runningCourses.size(); i++) {
@@ -452,7 +466,7 @@ public class PrivSchool {
         }
     }
     
-    public void AssignmentsPerStudent() {
+    public void assignmentsPerStudent() {
         String readLine;
         
         for (int i = 0; i < pSStudents.size(); i++) {
@@ -486,7 +500,7 @@ public class PrivSchool {
         }
     }
     
-    public void StudentsWithCourses() {
+    public void studentsWithCourses() {
         HashSet<Student> tempstud = new HashSet();
         for (int i=0; i < runningCourses.size() - 1; i++) {
             for (int y=0; y < runningCourses.get(i).getStudents().size(); y++) {
@@ -507,7 +521,38 @@ public class PrivSchool {
         }
     }
     
-    public void ViewInfo() {
+    public void assignmentsDue() {
+        String readLine;
+        LocalDate startdate, enddate;
+        
+        System.out.println("Enter date [dd/mm/yyyy]:");
+        readLine = sc.nextLine().trim();
+        try {
+            startdate=LocalDate.parse(readLine,dformat);
+        } catch (DateTimeParseException e) {
+            System.out.println("Improper date");
+            return;
+        }
+        startdate=startdate.minusDays(startdate.getDayOfWeek().getValue() - 1);
+        enddate=startdate.plusDays(4);
+        ArrayList<Assignment> tempass = new ArrayList();
+        for (int i=0; i < runningCourses.size(); i++) {
+            for (int y=0; y < runningCourses.get(i).getAssignments().size(); y++) {
+                if (!startdate.isAfter(runningCourses.get(i).getAssignments().get(y).getSubDateTime()) &&
+                        !enddate.isBefore(runningCourses.get(i).getAssignments().get(y).getSubDateTime())) {
+                    tempass.add(runningCourses.get(i).getAssignments().get(y));
+                }
+            }
+        }
+        if (tempass.isEmpty()) {
+            System.out.println("No Assignments between " + startdate.format(dformat) + " and "  + enddate.format(dformat));
+        } else {
+            System.out.println("Assignments due between " + startdate.format(dformat) + " and "  + enddate.format(dformat));
+            System.out.println(tempass);
+        }
+    }
+    
+    public void viewInfo() {
         String readLine;
         
         if (runningCourses.isEmpty()) {
@@ -521,24 +566,27 @@ public class PrivSchool {
             System.out.println("4. Assignments per student");
             System.out.println("5. Students with more than one course");
             System.out.println("6. Assignments due in week of specific date");
-            System.out.println("Blank line to go back");
+            System.out.println("Any other key to go back");
             readLine = sc.nextLine().trim();
             if (!readLine.isEmpty()) {
                 switch (readLine) {
                     case "1" -> {
-                        StudentsPerCourse();
+                        studentsPerCourse();
                     }
                     case "2" -> {
-                        TrainersPerCourse();
+                        trainersPerCourse();
                     }
                     case "3" -> {
-                        AssignmentsPerCourse();
+                        assignmentsPerCourse();
                     }
                     case "4" -> {
-                        AssignmentsPerStudent();
+                        assignmentsPerStudent();
                     }
                     case "5" -> {
-                        StudentsWithCourses();
+                        studentsWithCourses();
+                    }
+                    case "6" -> {
+                        assignmentsDue();
                     }
                 }
             } else {
@@ -563,22 +611,22 @@ public class PrivSchool {
             readLine = sc.nextLine().trim();
             switch (readLine) {
                 case "1" -> {
-                    AddCourses();
+                    addCourses();
                 }
                 case "2" -> {
-                    AddTrainers();
+                    addTrainers();
                 }
                 case "3" -> {
-                    AddStudents();
+                    addStudents();
                 }
                 case "4" -> {
-                    AddAssignments();
+                    addAssignments();
                 }
                 case "5" -> {
-                    ActiveCourses();
+                    activeCourses();
                 }
                 case "6" -> {
-                    ViewInfo();
+                    viewInfo();
                 }
                 case "7" -> {
                     enough = true;
@@ -593,7 +641,5 @@ public class PrivSchool {
         PrivSchool p1 = new PrivSchool();
         p1.ShowMenu();
     }
-    
-
 }
 
